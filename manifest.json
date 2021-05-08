@@ -1,24 +1,16 @@
 {
     "manifest_version": 2,
     "name": "Better ctrl+f",
-    "version": "0.1",
     "description": "An improved ctrl+f for google chrome",
+    "version": "1.0",
     "icons": {
         "128": "icon128.png"
     },
     "browser_action": {
         "default_popup": "popup.html"
     },
-    "background": {
-        "scripts": [
-            "popup.js"
-        ],
-        "persistent": false
-    },
     "permissions": [
         "activeTab",
-        "declarativeContent",
-        "storage",
-        "tabs"
+        "storage"
     ]
 }
