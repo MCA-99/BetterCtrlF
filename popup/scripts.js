@@ -2,11 +2,10 @@
 
 window.onload = () => {
     const input = document.getElementById('usrInput');
-    const button = document.querySelector('button');
     
-    button.addEventListener('click', () =>{
+    input.addEventListener('input', () =>{
         chrome.tabs.query({active: true, currentWindow: true}, (tabs)  => {
             chrome.tabs.sendMessage(tabs[0].id, { input_value: input.value });
         });
-    });   
+    });
 };

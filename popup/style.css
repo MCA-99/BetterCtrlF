@@ -1,0 +1,35 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../materialize/Roboto-Regular.ttf);
+}
+
+* {
+    font-family: Roboto;
+}
+
+body {
+    width: 350px;
+}
+
+#search {
+    width: 90%;
+    display:inline-block;    
+}
+
+#usrInput {
+    width: 62%;
+    margin-left: 10px;
+    padding-left: 3px;
+}
+
+.nextbackbtn {
+    width: 25px !important;
+    height: 25px !important;
+    margin-left: 3px !important;
+}
+
+.material-icons {
+    position: absolute;
+    margin-top: -15px !important;
+    margin-left: -13px !important;
+}

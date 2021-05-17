@@ -12,12 +12,22 @@
     },
     "content_scripts": [
         {
-          "matches": ["http://*/*","https://*/*"],
+          "matches": ["http://*/*","https://*/*","<all_urls>"],
           "js": ["index.js"]
         }
-      ],
+    ],
     "permissions": [
         "activeTab",
         "storage"
-    ]
+    ],
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+F",
+                "linux": "Ctrl+Shift+F",
+                "windows": "Ctrl+Shift+F",
+                "mac": "Ctrl+Shift+F"
+            }
+        }
+    }
 }
