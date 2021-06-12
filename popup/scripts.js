@@ -3,12 +3,15 @@
 window.onload = () => {
     const input = document.getElementById('usrInput');
     
-    input.addEventListener('keypress', (e) =>{
+    input.addEventListener('keyup', (e) =>{
         if (e.key === 'Enter'){
             chrome.tabs.query({active: true, currentWindow: true}, (tabs)  => {
-                chrome.tabs.sendMessage(tabs[0].id, { input_value: input.value });
+                chrome.tabs.sendMessage(tabs[0].id, { input_value: input.value }, function(respuesta){
+                    var count = respuesta.count;
+                    var hit_count = document.querySelector(".hit_count");
+                    hit_count.innerText = count;
+                });
             });
-        
         }
     });
 };

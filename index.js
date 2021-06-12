@@ -1,11 +1,11 @@
 // Wait response from popup and actuate over page
+var count = 0;
+var old_value = "";
 
-chrome.runtime.onMessage.addListener(({ input_value }) => {
-    if (document.getElementsByClassName("selectedText highlighted").length > 0){
-        unhighlight();
-    }
-    
+chrome.runtime.onMessage.addListener(({ input_value }, sender, respuesta) => {
+    unhighlight();
     doSearch(input_value, "yellow");
+    respuesta({"count":count});
 });
 
 function doSearch(text, backgroundColor) {
@@ -18,12 +18,26 @@ function doSearch(text, backgroundColor) {
         while (window.find(text)) {
             document.execCommand("HiliteColor", false, backgroundColor);
             sel.collapseToEnd();
+            count++;
         }
+
+        old_value = text;
         document.designMode = "off";
-        window.scrollTo(0, y_scroll);
+        window.scrollTo(0, y_scroll);        
     }
 }
 
 function unhighlight(){
-    document.execCommand("undo"); 
+    document.designMode = "on";
+    console.log(old_value);
+    // while (window.find(old_value)) {
+    //     document.execCommand("undo");
+    //     console.log("yea");
+    // }
+    console.log(count);
+    for (i=0; i<=count; i++) {
+        document.execCommand("undo");
+    }
+    count = 0;
+    document.designMode = "off";
 }
