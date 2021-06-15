@@ -1,25 +1,47 @@
-// Wait response from popup and actuate over page
+/*
+** This script wait a response from popup.js and actuate over actual page
+** @mca [15/06/2021]
+*/
+
 var count = 0;
 var old_value = "";
+var hit_position = [];
 
+/*
+** Listen for answers from popup.js and call functions
+** @mca [15/06/2021]
+*/
 chrome.runtime.onMessage.addListener(({ input_value }, sender, respuesta) => {
     unhighlight();
-    doSearch(input_value, "yellow");
+    highlight(input_value, "yellow");
     respuesta({"count":count});
 });
 
-function doSearch(text, backgroundColor) {
+/*
+** Find and highlight the input from the popup
+** @mca [15/06/2021]
+**
+** ### Enable design mode on page (required to use 'execCommand') ###
+** Loop over every hit using window.find and change the background color
+** Prevent windw.find to change user position in page
+** Count all the hit for unhighlight function
+** Save all the Y positions to use in popup search
+*/
+function highlight(text, backgroundColor) {
     if (window.find && window.getSelection) {
         document.designMode = "on";
         var sel = window.getSelection();
         sel.collapse(document.body, 0);
         var y_scroll = window.scrollY;
-
+        // ***** TODO: detectar si el usuario va un hit hacia delante o detras y mover la posicion de la pagina a donde corresponda *****
         while (window.find(text)) {
             document.execCommand("HiliteColor", false, backgroundColor);
             sel.collapseToEnd();
             count++;
+            hit_position.push(window.scrollY);
         }
+        // ***** DELETE ME LATER *****
+        console.log(hit_position);
 
         old_value = text;
         document.designMode = "off";
@@ -27,14 +49,16 @@ function doSearch(text, backgroundColor) {
     }
 }
 
+/*
+** Find and unhighlight the input from the popup
+** @mca [15/06/2021]
+**
+** ### Enable design mode on page (required to use 'execCommand') ###
+** Go through every window.find using the count variable and undone the execCommand
+** Reset the count variable
+*/
 function unhighlight(){
     document.designMode = "on";
-    console.log(old_value);
-    // while (window.find(old_value)) {
-    //     document.execCommand("undo");
-    //     console.log("yea");
-    // }
-    console.log(count);
     for (i=0; i<=count; i++) {
         document.execCommand("undo");
     }
